@@ -4,19 +4,23 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-typedef enum State { Locked, Unlocked } t_state;
-typedef enum Event { Push, Coin } t_event;
+typedef enum State { Locked, Unlocked, SIZE_STATE } t_state;
+typedef enum Event { Push, Coin, SIZE_EVENT } t_event;
 
 char	*State_S[] = {
 	[Locked]	= "Locked",
 	[Unlocked]	= "Unlocked"
 };
 
+int	FSM[SIZE_STATE][SIZE_EVENT] = {
+//   Push    Coin
+	{Locked, Unlocked},		// Locked
+	{Locked, Unlocked}		// Unlocked
+};
+
 t_state	next_state(t_state state, t_event event)
 {
-	if (event == Coin)
-		return (Unlocked);
-	return (Locked);
+	return FSM[state][event];
 }
 
 int	main(int argc, char **argv)
